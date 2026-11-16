@@ -1,0 +1,11 @@
+{
+  "name": "recipe",
+  "owner": { "name": "Soffritto Technologies" },
+  "plugins": [
+    {
+      "name": "recipe",
+      "source": "./",
+      "description": "A skill that draws how code works as a flow board for a non-technical reader to review."
+    }
+  ]
+}

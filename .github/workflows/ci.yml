@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run tests
+        run: node --test
+      - name: Build the skill zip
+        run: sh scripts/build-zip.sh
+      - name: Check the zip lists both files
+        run: |
+          unzip -l dist/recipe.zip | grep -q 'recipe/SKILL.md'
+          unzip -l dist/recipe.zip | grep -q 'recipe/assets/page-template.html'

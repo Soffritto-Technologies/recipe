@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{Board title}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{--canvas:#F7F6F2;--dot:#DEDAD0;--box:#EFEDE7;--box-line:#D3CFC4;--ink:#23211D;--muted:#67635A;--arrow:#8B867B;
+--green-bg:#E5F3EA;--green-line:#9ACBAE;--green-ink:#1C6741;--orange-bg:#FCEEDB;--orange-line:#E3B06F;--orange-ink:#8E520E;
+--ai-a-bg:#FBE3D8;--ai-a-line:#EBB49A;--ai-a-ink:#A94A22;--ai-b-bg:#ECE9FB;--ai-b-line:#C3BBF0;--ai-b-ink:#5145B8;--red-line:#C8423B;--red-ink:#A3322C;
+--ai-c-bg:#E2EDFA;--ai-c-line:#A9C6EC;--ai-c-ink:#285DA6;--code-bg:#F7F6F2;--code-line:#C9C4B8;--code-ink:#5A564D;--region:#B9B4A8;--page:#FBFAF7;--card:#F2F0EA;
+--sans:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--canvas:#1C1B19;--dot:#34322D;--box:#282723;--box-line:#403D37;--ink:#EDEAE3;--muted:#A9A498;--arrow:#8A857A;
+--green-bg:#16301F;--green-line:#2E6B47;--green-ink:#8FD4AB;--orange-bg:#33260F;--orange-line:#7C5622;--orange-ink:#F1BC74;--ai-a-bg:#3B2116;--ai-a-line:#7A3F25;--ai-a-ink:#F3A27C;
+--ai-b-bg:#262240;--ai-b-line:#4A4185;--ai-b-ink:#B6ACF6;--red-line:#F07B72;--red-ink:#F49A92;--ai-c-bg:#172A41;--ai-c-line:#2F5584;--ai-c-ink:#91BCF0;
+--code-bg:#1C1B19;--code-line:#4A473F;--code-ink:#BDB8AC;--region:#4E4B43;--page:#151412;--card:#201F1C;color-scheme:dark;}}
+:root[data-theme="dark"]{--canvas:#1C1B19;--dot:#34322D;--box:#282723;--box-line:#403D37;--ink:#EDEAE3;--muted:#A9A498;--arrow:#8A857A;
+--green-bg:#16301F;--green-line:#2E6B47;--green-ink:#8FD4AB;--orange-bg:#33260F;--orange-line:#7C5622;--orange-ink:#F1BC74;--ai-a-bg:#3B2116;--ai-a-line:#7A3F25;--ai-a-ink:#F3A27C;
+--ai-b-bg:#262240;--ai-b-line:#4A4185;--ai-b-ink:#B6ACF6;--red-line:#F07B72;--red-ink:#F49A92;--ai-c-bg:#172A41;--ai-c-line:#2F5584;--ai-c-ink:#91BCF0;
+--code-bg:#1C1B19;--code-line:#4A473F;--code-ink:#BDB8AC;--region:#4E4B43;--page:#151412;--card:#201F1C;color-scheme:dark;}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:940px;margin:0 auto;padding:28px 16px 56px}
+h1{font-size:26px;font-weight:600;letter-spacing:-.01em;margin:0 0 6px}
+h2{font-size:17px;font-weight:600;margin:36px 0 10px}
+p.lede{color:var(--muted);max-width:64ch;margin:0 0 20px}
+.status{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:10px;background:var(--orange-bg);color:var(--orange-ink)}
+.fig{margin:0;border-radius:16px;overflow:hidden;border:1px solid var(--box-line)}
+.fig-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.fig svg{display:block;width:100%;min-width:700px;height:auto}
+figcaption{font-size:13px;color:var(--muted);padding:10px 14px;background:var(--card);border-top:1px solid var(--box-line)}
+ul.finds{list-style:none;padding:0;margin:12px 0 0;display:grid;gap:10px}
+ul.finds li{background:var(--card);border-radius:12px;padding:12px 14px}
+.canvas{fill:var(--canvas)}.dot{fill:var(--dot)}
+.bx{fill:var(--box);stroke:var(--box-line);stroke-width:1}
+.or{fill:var(--orange-bg);stroke:var(--orange-line);stroke-width:1}
+.lane{fill:var(--green-bg);stroke:var(--green-line);stroke-width:1}
+.reg{fill:none;stroke:var(--region);stroke-width:1.2}
+.t{fill:var(--ink);font:600 14.5px var(--sans)}.s{fill:var(--muted);font:400 12.5px var(--sans)}
+.t-o{fill:var(--orange-ink);font:600 14.5px var(--sans)}.s-o{fill:var(--orange-ink);font:400 12px var(--sans)}
+.pp{fill:var(--ai-b-bg);stroke:var(--ai-b-ink);stroke-width:1.5;stroke-dasharray:1.5 3.5;stroke-linecap:round}
+.scrap{fill:none;stroke:var(--red-line);stroke-width:1.6;stroke-dasharray:1.5 3.5;stroke-linecap:round}
+.tag-r{fill:var(--red-ink);font:600 11px var(--sans);letter-spacing:.04em}
+.t-p{fill:var(--ai-b-ink);font:600 14.5px var(--sans)}.s-p{fill:var(--ai-b-ink);font:400 12px var(--sans)}.tag-p{fill:var(--ai-b-ink);font:600 11px var(--sans);letter-spacing:.04em}
+.t-g{fill:var(--green-ink);font:600 15px var(--sans)}.s-g{fill:var(--green-ink);font:400 12px var(--sans)}
+.ln{fill:var(--green-ink);font:500 12px var(--mono)}.ls{fill:var(--green-ink);font:400 11.5px var(--sans);opacity:.85}
+.rt{fill:var(--muted);font:600 13px var(--sans)}
+.al{fill:var(--muted);font:400 12px var(--sans)}.al-g{fill:var(--green-ink);font:400 11.5px var(--sans)}
+.ar{stroke:var(--arrow);stroke-width:1.4;fill:none}.ar-g{stroke:var(--green-line);stroke-width:1.4;fill:none;stroke-dasharray:4 4}
+.ah{fill:var(--arrow)}.ah-g{fill:var(--green-line)}.ah-o{fill:var(--orange-line)}
+.ar-o{stroke:var(--orange-line);stroke-width:1.4;fill:none}.ar-p{stroke:var(--ai-b-ink);stroke-width:1.5;stroke-dasharray:1.5 3.5;stroke-linecap:round;fill:none}.al-p{fill:var(--ai-b-ink);font:500 11.5px var(--sans)}
+.term{fill:var(--box);stroke:var(--arrow);stroke-width:1.2}
+.pt{font:500 11.5px var(--sans)}
+.p-code{fill:var(--code-bg);stroke:var(--code-line)}.p-code-t{fill:var(--code-ink)}
+.p-ai-a{fill:var(--ai-a-bg);stroke:var(--ai-a-line)}.p-ai-a-t{fill:var(--ai-a-ink)}
+.p-ai-b{fill:var(--ai-b-bg);stroke:var(--ai-b-line)}.p-ai-b-t{fill:var(--ai-b-ink)}
+.p-ai-c{fill:var(--ai-c-bg);stroke:var(--ai-c-line)}.p-ai-c-t{fill:var(--ai-c-ink)}
+.fig-title{font-size:15px;font-weight:600;margin:20px 0 8px}
+</style></head>
+<body><div class="wrap">
+<h1>{{Board title}}</h1>
+<p class="lede">{{One or two sentences: what the board shows and the legend: grey step, orange decision or gate, green saved, red dashes a gap.}}</p>
+<h2>{{Section}} <span class="status">{{status}}</span></h2>
+<figure class="fig"><div class="fig-scroll">
+{{<svg> here, built per SKILL.md}}
+</div><figcaption>{{What the figure claims, and its source (branch, commit, date).}}</figcaption></figure>
+<h2>Step {{N}} up close: {{what it decides}}</h2>
+<figure class="fig"><div class="fig-scroll">
+{{<svg> sub-diagram, its own flow, per SKILL.md}}
+</div><figcaption>{{What it claims, with one worked example using a named person.}}</figcaption></figure>
+<h2>Worth knowing</h2>
+<h3 class="fig-title">{{How X is worked out}}</h3>
+<figure class="fig"><div class="fig-scroll">
+{{<svg> optional, for logic the main flow only uses}}
+</div><figcaption>{{Worked example.}}</figcaption></figure>
+<h2>Found while tracing</h2>
+<ul class="finds"><li><b>{{Finding}}.</b> {{One line.}}</li></ul>
+</div></body></html>

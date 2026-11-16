@@ -1,0 +1,8 @@
+{
+  "name": "recipe",
+  "version": "0.1.0",
+  "description": "Recipe: Claude draws how your code works as a whiteboard-style flow board, so you can review what your AI built without reading code.",
+  "author": { "name": "Soffritto Technologies" },
+  "license": "MIT",
+  "keywords": ["flow-diagram", "code-review", "visualization", "non-technical", "skill"]
+}
